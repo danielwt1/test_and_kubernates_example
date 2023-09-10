@@ -1,0 +1,22 @@
+
+##Permite generar manifiestos 
+##Puede crear cosas
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+#Etiquetra que le pondra a todos los manifiestos 
+commonLabels:
+  app: ejemplo
+##Manfiestos 
+resources:
+- 15-pod-secret.yaml
+
+secretGenerator:
+- name: db-credentials
+  literals:
+  - username=admin
+  - password=secr3tpassw0rd!
+##Interpreta y la puede cambiar la imagen se construye con kustomize build .
+## la puedo cambiar la imagen que esta en el resources 
+images:
+- name: nginx
+  newTag: latest

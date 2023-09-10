@@ -1,0 +1,22 @@
+
+##Es una archivo que lo hostea en Kubernates y puedo acceder al archivo desde los pods
+ ## Se usan para configuracion y se puede acceder desde pods,
+ ## util cuando las config por nodo son diferentes por x razon y no tendria que tener ahrdcodeado todo en el manifiesto si no traigo el value desde
+ #"el config map"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-demo
+data:
+  # property-like keys; each key maps to a simple value
+  player_initial_lives: "3"
+  ui_properties_file_name: "user-interface.properties"
+  #
+  # file-like keys
+  game.properties: |
+    enemy.types=aliens,monsters
+    player.maximum-lives=5
+  user-interface.properties: |
+    color.good=purple
+    color.bad=yellow
+    allow.textmode=true

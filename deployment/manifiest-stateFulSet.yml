@@ -1,0 +1,41 @@
+
+#stateful que es copn un volumen es decir si se muere el pod no se mueren los datos 
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-csi-app-set
+spec:
+  selector:
+    matchLabels:
+      app: mypod
+  serviceName: "my-frontend"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mypod
+    spec:
+      containers:
+      - name: my-frontend
+        image: danielwt1/docker-repo:1.0.0
+        args:
+        - sleep
+        - infinity
+        volumeMounts:
+        - mountPath: "/data"
+        #nombre del volumne
+          name: csi-pvc
+  #se crea el volumen 
+  volumeClaimTemplates:
+  - metadata:
+      name: csi-pvc
+    spec:
+    #Opcion para que se pueda editar
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+          # nombre del servicio del proveedor, si es AWS, o otro cmabia para el volumen se conecta a la api 
+          # drive de Kubernates para un proveedor 
+      storageClassName: do-block-storage

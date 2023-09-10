@@ -1,0 +1,40 @@
+##Manifiesto forma basica de un pod
+## La version de la api del recurso de Kubernates
+#cambia dependiendo del recurdso del kind spot, ver en documentacion que version usa la kind pod
+apiVersion: v1
+#
+kind: Pod
+#Etiquedas o nobmres, nombre del pod como se llama 
+metadata:
+  name: angular-example-pod
+spec:
+  containers:
+  - name: angular
+    image: angular:1.0.0
+    #paara variables de entorno 
+    env: 
+    - name: VARIABLE_ENTORNO
+      value: "valor"
+  #recursos a los contenedores no al POD
+  resources: 
+  #Los recursos de request son los que le gfarantizo que siempre tendra 
+    requests:
+      memory: "64Mi"
+      cpu: "200m"
+    # Los limits es el limite que el POD puede llegar a usar de memoria y cpu maximo 128 megas de ram 
+    #si se pasa el kernel de linux mata el proceso y resetea el POD 
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+    # forma de decirle a kubernates que el pod esta listo para recibir trafico
+    readinessProbe: 
+      httpGet: 
+        path: /
+        port: 4200
+    livenessProbe: 
+      tcpSocket:
+        port: 4200
+      initialDelaySeconds: 15
+      periodSeconds: 20
+    ports: 
+    - containerPort: 4200
