@@ -17,7 +17,10 @@ spec:
         image: gcr.io/google-samples/hello-app:1.0
         ports:
         - containerPort: 8080
-
+#El Kubernates  se conecta al api del proveedor aws, azure digital ocena etc 
+# pide un loadBalancer, toma todos pods que tengan la etiqueta  role:---- los coloca en el loadBalancer
+# y cuando consulto a la Ip del loadBalancer me responde 
+#Es mejor usar laodBalancer porque esta sujeto a que sepa la IP de cada nodo para poder llegar al servicio, en cambio la IP del Balancer siempre es la misma 
 ---
 apiVersion: v1
 kind: Service
